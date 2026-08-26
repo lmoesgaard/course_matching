@@ -1,0 +1,848 @@
+<title>Farmaci Course Match</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #F1F2ED;
+    --paper-raised: #FFFFFF;
+    --paper-sunken: #E7E9E2;
+    --ink: #1C231F;
+    --ink-soft: #5B655F;
+    --ink-faint: #8A928B;
+    --line: #D7DCD1;
+    --line-strong: #BFC6B9;
+    --accent-sdu: #9C6A1E;
+    --accent-sdu-soft: #F1E4CD;
+    --accent-ku: #1D5C68;
+    --accent-ku-soft: #DCEAEC;
+    --accent-score: #6E4A73;
+    --accent-score-soft: #E7DDE9;
+    --shadow: 0 1px 2px rgba(28, 35, 31, 0.06), 0 6px 20px -8px rgba(28, 35, 31, 0.18);
+    --focus-ring: #1D5C68;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14171A;
+      --paper-raised: #1C2023;
+      --paper-sunken: #101315;
+      --ink: #E8EAE5;
+      --ink-soft: #A2AAA3;
+      --ink-faint: #6F7671;
+      --line: #2B302C;
+      --line-strong: #3B4239;
+      --accent-sdu: #DDA24E;
+      --accent-sdu-soft: #3A2E17;
+      --accent-ku: #5CB0BB;
+      --accent-ku-soft: #1B3438;
+      --accent-score: #C79ECC;
+      --accent-score-soft: #362A3A;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+      --focus-ring: #5CB0BB;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #14171A;
+    --paper-raised: #1C2023;
+    --paper-sunken: #101315;
+    --ink: #E8EAE5;
+    --ink-soft: #A2AAA3;
+    --ink-faint: #6F7671;
+    --line: #2B302C;
+    --line-strong: #3B4239;
+    --accent-sdu: #DDA24E;
+    --accent-sdu-soft: #3A2E17;
+    --accent-ku: #5CB0BB;
+    --accent-ku-soft: #1B3438;
+    --accent-score: #C79ECC;
+    --accent-score-soft: #362A3A;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+    --focus-ring: #5CB0BB;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .page {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 32px) 80px;
+  }
+
+  /* ---------- header ---------- */
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow .dot-sdu, .eyebrow .dot-ku {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+  .eyebrow .dot-sdu { background: var(--accent-sdu); }
+  .eyebrow .dot-ku { background: var(--accent-ku); }
+
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.4vw, 2.9rem);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0.32em 0 0.2em;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- tabs ---------- */
+
+  .tabbar {
+    margin-top: 32px;
+    display: inline-flex;
+    padding: 4px;
+    background: var(--paper-sunken);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    gap: 2px;
+  }
+
+  .tab {
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: transparent;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] {
+    background: var(--paper-raised);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+  }
+  .tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+  .panel { display: none; margin-top: 26px; }
+  .panel.active { display: block; }
+
+  section.card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  /* ---------- find panel ---------- */
+
+  .find-head {
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin-bottom: 9px;
+  }
+
+  .combo { position: relative; }
+
+  .combo input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 10px;
+    padding: 12px 42px 12px 14px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .combo input::placeholder { color: var(--ink-faint); }
+  .combo input:focus {
+    outline: none;
+    border-color: var(--focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 22%, transparent);
+  }
+
+  .combo .clear-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--ink-faint);
+    cursor: pointer;
+    font-size: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .combo .clear-btn:hover { background: var(--paper-sunken); color: var(--ink); }
+  .combo.has-value .clear-btn { display: flex; }
+
+  .suggestions {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 6px;
+    display: none;
+  }
+  .suggestions.open { display: block; }
+
+  .suggestion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .suggestion:hover, .suggestion.active { background: var(--paper-sunken); }
+  .suggestion .name { font-size: 14px; }
+  .suggestion .name mark {
+    background: none;
+    color: inherit;
+    font-weight: 700;
+  }
+  .suggestions-empty {
+    padding: 16px 12px;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    text-align: center;
+  }
+
+  .pill {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2.5px 7px;
+    border-radius: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .pill-sdu { background: var(--accent-sdu-soft); color: var(--accent-sdu); }
+  .pill-ku  { background: var(--accent-ku-soft);  color: var(--accent-ku); }
+
+  .selected-chip {
+    margin-top: 14px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .selected-chip.show { display: flex; }
+  .selected-chip .chip-name {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .count-row {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+  }
+  .count-row .field-label { margin: 0; }
+  .count-options { display: flex; gap: 6px; }
+  .count-btn {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 7px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .count-btn:hover { border-color: var(--focus-ring); color: var(--ink); }
+  .count-btn.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .results-body { padding: 8px 24px 24px; }
+
+  .empty-state {
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--ink-faint);
+  }
+  .empty-state .glyph {
+    font-family: "Fraunces", serif;
+    font-size: 30px;
+    color: var(--line-strong);
+    margin-bottom: 10px;
+  }
+  .empty-state p { margin: 0; font-size: 14px; }
+
+  .result-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .result-row:last-child { border-bottom: none; }
+
+  .result-rank {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align: right;
+  }
+
+  .result-main .result-name { font-size: 14.5px; margin-bottom: 7px; }
+  .result-bar-track {
+    height: 6px;
+    background: var(--paper-sunken);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 320px;
+  }
+  .result-bar-fill {
+    height: 100%;
+    background: var(--accent-score);
+    border-radius: 4px;
+  }
+
+  .result-score {
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--accent-score);
+    text-align: right;
+    min-width: 58px;
+  }
+
+  /* ---------- table panel ---------- */
+
+  .table-controls {
+    padding: 20px 24px;
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--line);
+  }
+  .table-controls .filter-field { flex: 1 1 240px; }
+  .table-controls .filter-field input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 9px;
+    padding: 10px 12px;
+  }
+  .table-controls .filter-field input:focus {
+    outline: none;
+    border-color: var(--focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 22%, transparent);
+  }
+
+  .table-scroll {
+    max-height: 62vh;
+    overflow: auto;
+    border-radius: 0 0 16px 16px;
+  }
+
+  table.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  table.match-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--paper-sunken);
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    padding: 10px 14px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--line-strong);
+    white-space: nowrap;
+  }
+  table.match-table thead th:hover { color: var(--ink); }
+  table.match-table thead th .arrow { opacity: 0; margin-left: 4px; }
+  table.match-table thead th.sorted .arrow { opacity: 1; }
+  table.match-table thead th.score-col { text-align: right; }
+
+  table.match-table tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.match-table tbody tr:hover td { background: var(--paper-sunken); }
+  table.match-table td.score-col {
+    text-align: right;
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--accent-score);
+    white-space: nowrap;
+  }
+  .mini-bar {
+    display: inline-block;
+    width: 46px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--paper-sunken);
+    overflow: hidden;
+    vertical-align: middle;
+    margin-right: 9px;
+  }
+  .mini-bar > span {
+    display: block;
+    height: 100%;
+    background: var(--accent-score);
+    border-radius: 3px;
+  }
+
+  .table-footer {
+    padding: 12px 24px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  footer.credit {
+    margin-top: 28px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+</style>
+
+<div class="page">
+  <div class="eyebrow"><span class="dot-sdu"></span>SDU<span aria-hidden="true">·</span><span class="dot-ku"></span>KU</div>
+  <h1>Farmaci Course Match</h1>
+  <p class="lede">
+    Find the closest content matches between the pharmacy programmes at
+    <strong>Syddansk Universitet</strong> and <strong>Københavns Universitet</strong>,
+    ranked by textual similarity. Every SDU course is only ever compared against KU courses, and vice versa.
+  </p>
+
+  <div class="tabbar" role="tablist" aria-label="View">
+    <button class="tab" id="tab-find" role="tab" aria-selected="true" aria-controls="panel-find">Find matches</button>
+    <button class="tab" id="tab-table" role="tab" aria-selected="false" aria-controls="panel-table">Full comparison</button>
+  </div>
+
+  <div class="panel active" id="panel-find" role="tabpanel" aria-labelledby="tab-find">
+    <section class="card">
+      <div class="find-head">
+        <label class="field-label" for="course-input">Search for a course</label>
+        <div class="combo" id="combo">
+          <input type="text" id="course-input" placeholder="Start typing an SDU or KU course name…" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
+          <button class="clear-btn" id="clear-btn" type="button" aria-label="Clear selection">✕</button>
+          <div class="suggestions" id="suggestions" role="listbox"></div>
+        </div>
+        <div class="selected-chip" id="selected-chip">
+          <span class="chip-name" id="chip-name"></span>
+          <span class="pill" id="chip-pill"></span>
+        </div>
+      </div>
+
+      <div class="count-row">
+        <span class="field-label">Show</span>
+        <div class="count-options" id="count-options">
+          <button class="count-btn" data-n="5">5</button>
+          <button class="count-btn" data-n="10">10</button>
+          <button class="count-btn" data-n="15">15</button>
+          <button class="count-btn" data-n="25">25</button>
+          <button class="count-btn" data-n="all">All</button>
+        </div>
+      </div>
+
+      <div class="results-body" id="results-body">
+        <div class="empty-state">
+          <div class="glyph">☍</div>
+          <p>Pick a course above to see its best matches from the other university.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="panel" id="panel-table" role="tabpanel" aria-labelledby="tab-table">
+    <section class="card">
+      <div class="table-controls">
+        <div class="filter-field">
+          <label class="field-label" for="table-filter">Filter by course name</label>
+          <input type="text" id="table-filter" placeholder="e.g. farmakologi, organisk kemi…">
+        </div>
+        <div>
+          <span class="field-label">Show</span>
+          <div class="count-options" id="table-count-options">
+            <button class="count-btn" data-n="20">Top 20</button>
+            <button class="count-btn" data-n="50">Top 50</button>
+            <button class="count-btn" data-n="100">Top 100</button>
+            <button class="count-btn" data-n="all">All 525</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="match-table">
+          <thead>
+            <tr>
+              <th data-key="sdu">SDU Course <span class="arrow">▾</span></th>
+              <th data-key="ku">KU Course <span class="arrow">▾</span></th>
+              <th data-key="score" class="score-col sorted">Similarity <span class="arrow">▾</span></th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div class="table-footer" id="table-footer"></div>
+    </section>
+  </div>
+
+  <footer class="credit">Similarity scores from the SDU–KU pharmacy course-matching model · pairs are SDU ↔ KU only</footer>
+</div>
+
+<script>
+  const PAIRS_RAW = [["Samfundsfarmaci", "Videnskabsteori og samfundsfarmaci", 0.3981], ["Indledende organisk kemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.3912], ["Farmaceutisk fysisk kemi", "Farmaceutisk fysisk kemi I", 0.3442], ["Lægemiddelformulering og fremstilling B", "Farmaci II – faste lægemiddelformer", 0.32], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Systemfarmakologi - signalvejenes farmakologi", 0.3137], ["Lægemiddelformulering og fremstilling A", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.3087], ["Indledende organisk kemi", "Organisk kemi I", 0.3085], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Organfarmakologi", 0.3014], ["Instrumentel farmaceutisk analyse", "Farmaceutisk analytisk kemi", 0.2873], ["Almen kemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.2491], ["Lægemiddelformulering og fremstilling B", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.2468], ["Samfundsfarmaci", "Samfundsfarmaci – metode og formidling", 0.2464], ["Farmaceutisk fysisk kemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.2448], ["Farmaceutisk fysisk kemi", "Organisk kemi I", 0.2375], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Systemfarmakologi - signalvejenes farmakologi", 0.2358], ["Instrumentel farmaceutisk analyse", "Kvalitetsvurdering af farmaceutiske råvarer", 0.2306], ["Farmaci grundkursus", "Kvalitetsvurdering af farmaceutiske råvarer", 0.2279], ["Lægemiddelformulering og fremstilling C", "Farmaci II – faste lægemiddelformer", 0.227], ["Farmaceutisk fysisk kemi", "Farmaceutisk fysisk kemi II", 0.2265], ["Lægemiddelformulering og fremstilling C", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.2214], ["Farmaceutisk Biologi", "Farmaceutisk biologi", 0.217], ["Indledende organisk kemi", "Kemiske principper", 0.2137], ["Almen kemi", "Farmaceutisk fysisk kemi I", 0.21], ["Lægemiddelformulering og fremstilling A", "Farmaci II – faste lægemiddelformer", 0.2094], ["Naturstofkemi og farmakognosi", "Lægemidler fra naturen", 0.2071], ["Farmaci grundkursus", "Farmaceutisk analytisk kemi", 0.2063], ["Grundlæggende biokemi", "Cellulær og molekylær biologi", 0.2038], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Basal farmakologi", 0.2009], ["Organisk Kemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.2001], ["Matematik og statistik for farmaci", "Farmaceutisk fysisk kemi I", 0.1995], ["Indledende organisk kemi", "Farmaceutisk fysisk kemi I", 0.1992], ["Almen kemi", "Kemiske principper", 0.1935], ["Farmaceutisk Biologi", "Systemfarmakologi - signalvejenes farmakologi", 0.1875], ["Lægemiddelformulering og fremstilling B", "Bachelorprojekt i farmaci", 0.1871], ["Instrumentel farmaceutisk analyse", "Lægemidler fra naturen", 0.1865], ["Indledende organisk kemi", "Biopharmaceuticals – bioorganisk kemi", 0.1863], ["Lægemiddelformulering og fremstilling C", "Bachelorprojekt i farmaci", 0.1859], ["Lægemiddelformulering og fremstilling A", "Bachelorprojekt i farmaci", 0.1859], ["Lægemiddelformulering og fremstilling A", "Organisk kemi II – syntese af lægemiddelstoffer", 0.185], ["Farmaceutisk fysisk kemi", "Biopharmaceuticals – bioorganisk kemi", 0.183], ["Grundstoffernes Kemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1827], ["Almen kemi", "Organisk kemi I", 0.1821], ["Almen kemi", "Biopharmaceuticals – bioorganisk kemi", 0.1799], ["Farmaceutisk Biologi", "Organfarmakologi", 0.1779], ["Fundamental Molekylær Biologi", "Cellulær og molekylær biologi", 0.1759], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Systemfarmakologi - signalvejenes farmakologi", 0.1759], ["Farmaceutisk Biologi", "Cellulær og molekylær biologi", 0.1749], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Organfarmakologi", 0.1742], ["Farmaci grundkursus", "Bachelorprojekt i farmaci", 0.1721], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Systemfarmakologi - signalvejenes farmakologi", 0.1709], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Basal farmakologi", 0.1707], ["Toksikologi", "Farmaceutisk biologi", 0.1676], ["Lægemiddelformulering og fremstilling C", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1675], ["Farmaceutisk fysisk kemi", "Farmaceutisk analytisk kemi", 0.1674], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Basal farmakologi", 0.1664], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Cellulær og molekylær biologi", 0.1654], ["Farmaci grundkursus", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1651], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Organfarmakologi", 0.165], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Organfarmakologi", 0.1646], ["Instrumentel farmaceutisk analyse", "Bachelorprojekt i farmaci", 0.1642], ["Lægemiddelformulering og fremstilling A", "Kemiske principper", 0.1637], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Basal farmakologi", 0.1636], ["Farmaceutisk fysisk kemi", "Kemiske principper", 0.1628], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaceutisk biologi", 0.1603], ["Lægemiddelformulering og fremstilling A", "Farmaceutisk fysisk kemi I", 0.1588], ["Lægemiddelformulering og fremstilling A", "Biopharmaceuticals – bioorganisk kemi", 0.1574], ["Lægemiddelformulering og fremstilling A", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1542], ["Naturstofkemi og farmakognosi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1541], ["Farmaceutisk Mikrobiologi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1517], ["Lægemiddelformulering og fremstilling D", "Bachelorprojekt i farmaci", 0.1505], ["Almen kemi", "Bachelorprojekt i farmaci", 0.1497], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaceutisk biologi", 0.1492], ["Indledende organisk kemi", "Organfarmakologi", 0.1484], ["Farmaceutisk fysisk kemi", "Bachelorprojekt i farmaci", 0.1482], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Cellulær og molekylær biologi", 0.1468], ["Almen kemi", "Farmaceutisk biologi", 0.1466], ["Organisk Kemi", "Organisk kemi I", 0.1465], ["Lægemiddelformulering og fremstilling A", "Organisk kemi I", 0.1454], ["Farmaci grundkursus", "Biopharmaceuticals – bioorganisk kemi", 0.1449], ["Farmaci grundkursus", "Kemiske principper", 0.1447], ["Lægemiddelformulering og fremstilling C", "Videnskabsteori og samfundsfarmaci", 0.1435], ["Grundstoffernes Kemi", "Kemiske principper", 0.1421], ["Farmaceutisk fysisk kemi", "Farmaci II – faste lægemiddelformer", 0.1405], ["Lægemiddelformulering og fremstilling D", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1398], ["Matematik og statistik for farmaci", "Systemfarmakologi - signalvejenes farmakologi", 0.1394], ["Matematik og statistik for farmaci", "Farmaceutisk analytisk kemi", 0.1388], ["Farmaci grundkursus", "Farmaceutisk biologi", 0.1379], ["Lægemiddelformulering og fremstilling C", "Farmaceutisk biologi", 0.1374], ["Indledende organisk kemi", "Farmaceutisk biologi", 0.137], ["Almen kemi", "Organfarmakologi", 0.1367], ["Lægemiddelformulering og fremstilling D", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.136], ["Matematik og statistik for farmaci", "Biopharmaceuticals – bioorganisk kemi", 0.1352], ["Indledende organisk kemi", "Systemfarmakologi - signalvejenes farmakologi", 0.1349], ["Grundlæggende biokemi", "Farmaceutisk biologi", 0.1341], ["Lægemiddelformulering og fremstilling C", "Kemiske principper", 0.1341], ["Lægemiddelformulering og fremstilling C", "Lægemiddeludvikling fra molekyle til menneske", 0.134], ["Farmaci grundkursus", "Videnskabsteori og samfundsfarmaci", 0.1338], ["Samfundsfarmaci", "Farmaceutisk biologi", 0.1338], ["Lægemiddelformulering og fremstilling B", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1337], ["Farmaceutisk Mikrobiologi", "Cellulær og molekylær biologi", 0.133], ["Matematik og statistik for farmaci", "Farmaceutisk fysisk kemi II", 0.1329], ["Indledende organisk kemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1329], ["Matematik og statistik for farmaci", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1327], ["Farmaceutisk Biologi", "Farmaceutisk fysisk kemi I", 0.1322], ["Grundstoffernes Kemi", "Biopharmaceuticals – bioorganisk kemi", 0.132], ["Lægemiddelformulering og fremstilling C", "Biopharmaceuticals – bioorganisk kemi", 0.1319], ["Farmaceutisk fysisk kemi", "Farmaceutisk biologi", 0.1315], ["Toksikologi", "Videnskabsteori og samfundsfarmaci", 0.1315], ["Farmaceutisk Biologi", "Lægemidler fra naturen", 0.1313], ["Fundamental Molekylær Biologi", "Farmaceutisk biologi", 0.1308], ["Farmaceutisk Biologi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1297], ["Farmaci grundkursus", "Cellulær og molekylær biologi", 0.1282], ["Indledende organisk kemi", "Cellulær og molekylær biologi", 0.1281], ["Grundlæggende biokemi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1281], ["Almen kemi", "Farmaceutisk fysisk kemi II", 0.1281], ["Almen kemi", "Systemfarmakologi - signalvejenes farmakologi", 0.128], ["Toksikologi", "Organfarmakologi", 0.1278], ["Indledende organisk kemi", "Bachelorprojekt i farmaci", 0.1273], ["Farmaceutisk Biologi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1272], ["Lægemiddelformulering og fremstilling B", "Kemiske principper", 0.127], ["Almen kemi", "Videnskabsteori og samfundsfarmaci", 0.1269], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Kemiske principper", 0.1266], ["Instrumentel farmaceutisk analyse", "Biopharmaceuticals – bioorganisk kemi", 0.1265], ["Almen kemi", "Cellulær og molekylær biologi", 0.1264], ["Matematik og statistik for farmaci", "Bachelorprojekt i farmaci", 0.1264], ["Instrumentel farmaceutisk analyse", "Farmaceutisk biologi", 0.1264], ["Lægemiddelformulering og fremstilling C", "Farmaceutisk analytisk kemi", 0.126], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1257], ["Fysik for Biologi og Farmaci", "Cellulær og molekylær biologi", 0.1255], ["Lægemiddelformulering og fremstilling D", "Farmaceutisk fysisk kemi I", 0.1254], ["Lægemiddelformulering og fremstilling D", "Farmaci II – faste lægemiddelformer", 0.1248], ["Farmaceutisk Biologi", "Farmaceutisk analytisk kemi", 0.1245], ["Lægemiddelformulering og fremstilling D", "Farmaceutisk biologi", 0.1245], ["Naturstofkemi og farmakognosi", "Systemfarmakologi - signalvejenes farmakologi", 0.1242], ["Farmaceutisk fysisk kemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1236], ["Lægemiddelformulering og fremstilling B", "Farmaceutisk fysisk kemi I", 0.1234], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Cellulær og molekylær biologi", 0.1232], ["Samfundsfarmaci", "Organfarmakologi", 0.123], ["Almen kemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1229], ["Naturstofkemi og farmakognosi", "Organfarmakologi", 0.1228], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Videnskabsteori og samfundsfarmaci", 0.1227], ["Farmaceutisk fysisk kemi", "Videnskabsteori og samfundsfarmaci", 0.1226], ["Lægemiddelformulering og fremstilling D", "Organfarmakologi", 0.1226], ["Farmaci grundkursus", "Samfundsfarmaci – metode og formidling", 0.1226], ["Toksikologi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1225], ["Matematik og statistik for farmaci", "Organfarmakologi", 0.1222], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Lægemidler fra naturen", 0.1213], ["Instrumentel farmaceutisk analyse", "Samfundsfarmaci – metode og formidling", 0.1206], ["Indledende organisk kemi", "Farmaceutisk analytisk kemi", 0.12], ["Toksikologi", "Bachelorprojekt i farmaci", 0.12], ["Matematik og statistik for farmaci", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1195], ["Naturstofkemi og farmakognosi", "Biopharmaceuticals – bioorganisk kemi", 0.1194], ["Medicinalkemi A", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1193], ["Indledende organisk kemi", "Farmaceutisk fysisk kemi II", 0.1191], ["Instrumentel farmaceutisk analyse", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1191], ["Toksikologi", "Systemfarmakologi - signalvejenes farmakologi", 0.119], ["Matematik og statistik for farmaci", "Videnskabsteori og samfundsfarmaci", 0.1185], ["Lægemiddelformulering og fremstilling B", "Farmaceutisk biologi", 0.1181], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmakoterapi", 0.118], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmakoterapi", 0.1179], ["Matematik og statistik for farmaci", "Samfundsfarmaci – metode og formidling", 0.1178], ["Farmaci grundkursus", "Farmakoterapi", 0.1173], ["Organisk Kemi", "Biopharmaceuticals – bioorganisk kemi", 0.1172], ["Almen kemi", "Lægemidler fra naturen", 0.1166], ["Instrumentel farmaceutisk analyse", "Videnskabsteori og samfundsfarmaci", 0.1163], ["Lægemiddelformulering og fremstilling B", "Biopharmaceuticals – bioorganisk kemi", 0.1161], ["Farmaceutisk Mikrobiologi", "Bachelorprojekt i farmaci", 0.116], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Videnskabsteori og samfundsfarmaci", 0.1158], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1158], ["Fysik for Biologi og Farmaci", "Farmaceutisk fysisk kemi I", 0.1157], ["Samfundsfarmaci", "Farmakoterapi", 0.1156], ["Farmaceutisk fysisk kemi", "Cellulær og molekylær biologi", 0.1154], ["Lægemiddelformulering og fremstilling C", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1153], ["Grundlæggende biokemi", "Biopharmaceuticals – bioorganisk kemi", 0.1149], ["Matematik og statistik for farmaci", "Lægemidler fra naturen", 0.1147], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Biopharmaceuticals – bioorganisk kemi", 0.1147], ["Farmaceutisk Biologi", "Lægemiddeludvikling fra molekyle til menneske", 0.1145], ["Lægemiddelformulering og fremstilling D", "Biopharmaceuticals – bioorganisk kemi", 0.1138], ["Farmaceutisk Biologi", "Biopharmaceuticals – bioorganisk kemi", 0.1137], ["Almen kemi", "Basal farmakologi", 0.1133], ["Lægemiddelformulering og fremstilling B", "Kvalitetsvurdering af farmaceutiske råvarer", 0.1132], ["Almen kemi", "Farmaceutisk analytisk kemi", 0.1132], ["Lægemiddelformulering og fremstilling C", "Farmaceutisk fysisk kemi I", 0.113], ["Indledende organisk kemi", "Videnskabsteori og samfundsfarmaci", 0.1129], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Bachelorprojekt i farmaci", 0.1128], ["Grundstoffernes Kemi", "Farmaceutisk fysisk kemi I", 0.1128], ["Farmaceutisk Mikrobiologi", "Videnskabsteori og samfundsfarmaci", 0.1128], ["Farmaceutisk Mikrobiologi", "Farmaceutisk biologi", 0.1125], ["Lægemiddelformulering og fremstilling C", "Cellulær og molekylær biologi", 0.1124], ["Lægemiddelformulering og fremstilling C", "Organfarmakologi", 0.1118], ["Matematik og statistik for farmaci", "Basal farmakologi", 0.1115], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaceutisk biologi", 0.1114], ["Matematik og statistik for farmaci", "Farmaceutisk biologi", 0.1111], ["Lægemiddelformulering og fremstilling B", "Lægemiddeludvikling fra molekyle til menneske", 0.111], ["Farmaci grundkursus", "Lægemidler fra naturen", 0.1109], ["Farmaceutisk Mikrobiologi", "Farmaci II – faste lægemiddelformer", 0.1108], ["Samfundsfarmaci", "Bachelorprojekt i farmaci", 0.1106], ["Farmaceutisk Mikrobiologi", "Biopharmaceuticals – bioorganisk kemi", 0.1104], ["Grundlæggende biokemi", "Videnskabsteori og samfundsfarmaci", 0.11], ["Matematik og statistik for farmaci", "Cellulær og molekylær biologi", 0.1099], ["Almen kemi", "Farmakoterapi", 0.1099], ["Indledende organisk kemi", "Lægemidler fra naturen", 0.1095], ["Grundstoffernes Kemi", "Organisk kemi I", 0.109], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmakoterapi", 0.108], ["Farmaceutisk fysisk kemi", "Organfarmakologi", 0.1079], ["Farmaci grundkursus", "Farmaceutisk fysisk kemi I", 0.1067], ["Lægemiddelformulering og fremstilling A", "Farmaceutisk analytisk kemi", 0.106], ["Farmaceutisk fysisk kemi", "Basal farmakologi", 0.1056], ["Lægemiddelformulering og fremstilling B", "Organfarmakologi", 0.1051], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Videnskabsteori og samfundsfarmaci", 0.1046], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1046], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1046], ["Farmaci grundkursus", "Organfarmakologi", 0.1044], ["Indledende organisk kemi", "Basal farmakologi", 0.1041], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaceutisk fysisk kemi I", 0.1039], ["Farmaceutisk Mikrobiologi", "Kemiske principper", 0.1037], ["Grundstoffernes Kemi", "Cellulær og molekylær biologi", 0.1037], ["Farmaceutisk Mikrobiologi", "Organfarmakologi", 0.1034], ["Farmaci grundkursus", "Systemfarmakologi - signalvejenes farmakologi", 0.1031], ["Lægemiddelformulering og fremstilling C", "Lægemidler fra naturen", 0.1027], ["Toksikologi", "Cellulær og molekylær biologi", 0.1027], ["Grundlæggende biokemi", "Kemiske principper", 0.1024], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Cellulær og molekylær biologi", 0.1022], ["Indledende organisk kemi", "Farmakoterapi", 0.1022], ["Lægemiddelformulering og fremstilling D", "Videnskabsteori og samfundsfarmaci", 0.102], ["Farmaceutisk Mikrobiologi", "Lægemidler fra naturen", 0.1019], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmakoterapi", 0.1019], ["Almen kemi", "Samfundsfarmaci – metode og formidling", 0.1018], ["Toksikologi", "Lægemidler fra naturen", 0.1018], ["Naturstofkemi og farmakognosi", "Organisk kemi I", 0.1017], ["Farmaceutisk Mikrobiologi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.1015], ["Farmaci grundkursus", "Basal farmakologi", 0.1014], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Biopharmaceuticals – bioorganisk kemi", 0.1013], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaceutisk analytisk kemi", 0.101], ["Lægemiddelformulering og fremstilling A", "Farmaceutisk fysisk kemi II", 0.1002], ["Farmaceutisk Biologi", "Bachelorprojekt i farmaci", 0.1], ["Farmaceutisk Biologi", "Videnskabsteori og samfundsfarmaci", 0.0994], ["Samfundsfarmaci", "Basal farmakologi", 0.0993], ["Grundstoffernes Kemi", "Bachelorprojekt i farmaci", 0.0991], ["Matematik og statistik for farmaci", "Farmaci II – faste lægemiddelformer", 0.099], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Kemiske principper", 0.0982], ["Toksikologi", "Biopharmaceuticals – bioorganisk kemi", 0.0981], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaceutisk analytisk kemi", 0.0979], ["Indledende organisk kemi", "Samfundsfarmaci – metode og formidling", 0.0974], ["Farmaceutisk fysisk kemi", "Systemfarmakologi - signalvejenes farmakologi", 0.0974], ["Lægemiddelformulering og fremstilling C", "Systemfarmakologi - signalvejenes farmakologi", 0.0973], ["Naturstofkemi og farmakognosi", "Cellulær og molekylær biologi", 0.0972], ["Lægemiddelformulering og fremstilling B", "Organisk kemi I", 0.0966], ["Farmaceutisk Mikrobiologi", "Farmaceutisk fysisk kemi I", 0.0964], ["Farmaceutisk Biologi", "Organisk kemi I", 0.0962], ["Toksikologi", "Farmaceutisk analytisk kemi", 0.0962], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaceutisk biologi", 0.0961], ["Lægemiddelformulering og fremstilling C", "Farmakoterapi", 0.0959], ["Farmaceutisk Biologi", "Kemiske principper", 0.0957], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Videnskabsteori og samfundsfarmaci", 0.0955], ["Naturstofkemi og farmakognosi", "Kemiske principper", 0.0954], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Samfundsfarmaci – metode og formidling", 0.0953], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Lægemidler fra naturen", 0.0953], ["Farmaceutisk Biologi", "Samfundsfarmaci – metode og formidling", 0.0953], ["Lægemiddelformulering og fremstilling A", "Lægemiddeludvikling fra molekyle til menneske", 0.0951], ["Instrumentel farmaceutisk analyse", "Farmaceutisk fysisk kemi I", 0.0946], ["Medicinalkemi A", "Organisk kemi I", 0.0946], ["Samfundsfarmaci", "Systemfarmakologi - signalvejenes farmakologi", 0.0945], ["Naturstofkemi og farmakognosi", "Farmaceutisk biologi", 0.0942], ["Medicinalkemi A", "Biopharmaceuticals – bioorganisk kemi", 0.0942], ["Samfundsfarmaci", "Biopharmaceuticals – bioorganisk kemi", 0.0941], ["Instrumentel farmaceutisk analyse", "Basal farmakologi", 0.094], ["Lægemiddelformulering og fremstilling B", "Videnskabsteori og samfundsfarmaci", 0.0939], ["Indledende organisk kemi", "Farmaci II – faste lægemiddelformer", 0.0937], ["Lægemiddelformulering og fremstilling D", "Systemfarmakologi - signalvejenes farmakologi", 0.0935], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Kemiske principper", 0.0931], ["Samfundsfarmaci", "Farmaceutisk analytisk kemi", 0.0926], ["Toksikologi", "Basal farmakologi", 0.0924], ["Instrumentel farmaceutisk analyse", "Farmaci II – faste lægemiddelformer", 0.0924], ["Fysik for Biologi og Farmaci", "Farmaceutisk biologi", 0.0923], ["Lægemiddelformulering og fremstilling B", "Systemfarmakologi - signalvejenes farmakologi", 0.0922], ["Instrumentel farmaceutisk analyse", "Farmakoterapi", 0.0921], ["Fundamental Molekylær Biologi", "Biopharmaceuticals – bioorganisk kemi", 0.0913], ["Lægemiddelformulering og fremstilling D", "Samfundsfarmaci – metode og formidling", 0.091], ["Grundstoffernes Kemi", "Farmaci II – faste lægemiddelformer", 0.0909], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0906], ["Grundstoffernes Kemi", "Farmaceutisk biologi", 0.0898], ["Matematik og statistik for farmaci", "Organisk kemi I", 0.0896], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Biopharmaceuticals – bioorganisk kemi", 0.0895], ["Instrumentel farmaceutisk analyse", "Cellulær og molekylær biologi", 0.0894], ["Lægemiddelformulering og fremstilling A", "Farmaceutisk biologi", 0.0891], ["Grundstoffernes Kemi", "Videnskabsteori og samfundsfarmaci", 0.0891], ["Farmaceutisk Mikrobiologi", "Systemfarmakologi - signalvejenes farmakologi", 0.089], ["Lægemiddelformulering og fremstilling A", "Lægemidler fra naturen", 0.0882], ["Lægemiddelformulering og fremstilling B", "Lægemidler fra naturen", 0.0878], ["Samfundsfarmaci", "Lægemidler fra naturen", 0.0876], ["Grundlæggende biokemi", "Farmaceutisk analytisk kemi", 0.0876], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0876], ["Lægemiddelformulering og fremstilling A", "Cellulær og molekylær biologi", 0.0868], ["Farmaci grundkursus", "Farmaci II – faste lægemiddelformer", 0.0868], ["Lægemiddelformulering og fremstilling D", "Farmakoterapi", 0.0867], ["Lægemiddelformulering og fremstilling C", "Organisk kemi I", 0.0867], ["Lægemiddelformulering og fremstilling B", "Farmaceutisk analytisk kemi", 0.0865], ["Samfundsfarmaci", "Lægemiddeludvikling fra molekyle til menneske", 0.0862], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaceutisk fysisk kemi I", 0.086], ["Farmaci grundkursus", "Organisk kemi I", 0.0859], ["Grundlæggende biokemi", "Organfarmakologi", 0.0858], ["Lægemiddelformulering og fremstilling A", "Organfarmakologi", 0.0857], ["Naturstofkemi og farmakognosi", "Farmaceutisk fysisk kemi I", 0.0856], ["Medicinalkemi A", "Organfarmakologi", 0.0854], ["Samfundsfarmaci", "Farmaci II – faste lægemiddelformer", 0.0853], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Kemiske principper", 0.0852], ["Farmaceutisk Mikrobiologi", "Farmaceutisk analytisk kemi", 0.0852], ["Grundstoffernes Kemi", "Lægemidler fra naturen", 0.085], ["Instrumentel farmaceutisk analyse", "Kemiske principper", 0.0849], ["Farmaceutisk Biologi", "Basal farmakologi", 0.0847], ["Medicinalkemi A", "Farmaceutisk biologi", 0.0847], ["Lægemiddelformulering og fremstilling C", "Basal farmakologi", 0.0844], ["Matematik og statistik for farmaci", "Farmakoterapi", 0.0843], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Biopharmaceuticals – bioorganisk kemi", 0.0841], ["Lægemiddelformulering og fremstilling B", "Farmakoterapi", 0.084], ["Instrumentel farmaceutisk analyse", "Systemfarmakologi - signalvejenes farmakologi", 0.0839], ["Lægemiddelformulering og fremstilling D", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0839], ["Toksikologi", "Samfundsfarmaci – metode og formidling", 0.0837], ["Lægemiddelformulering og fremstilling A", "Farmakoterapi", 0.0831], ["Instrumentel farmaceutisk analyse", "Organisk kemi I", 0.0828], ["Lægemiddelformulering og fremstilling C", "Farmaceutisk fysisk kemi II", 0.0827], ["Lægemiddelformulering og fremstilling D", "Lægemidler fra naturen", 0.0825], ["Grundstoffernes Kemi", "Farmaceutisk analytisk kemi", 0.0824], ["Naturstofkemi og farmakognosi", "Videnskabsteori og samfundsfarmaci", 0.0822], ["Almen kemi", "Farmaci II – faste lægemiddelformer", 0.0821], ["Samfundsfarmaci", "Cellulær og molekylær biologi", 0.082], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Bachelorprojekt i farmaci", 0.0819], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Bachelorprojekt i farmaci", 0.0818], ["Grundstoffernes Kemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0817], ["Grundlæggende biokemi", "Farmaceutisk fysisk kemi I", 0.0815], ["Organisk Kemi", "Farmaceutisk fysisk kemi I", 0.0814], ["Lægemiddelformulering og fremstilling A", "Basal farmakologi", 0.0813], ["Instrumentel farmaceutisk analyse", "Organfarmakologi", 0.0813], ["Matematik og statistik for farmaci", "Kemiske principper", 0.0811], ["Lægemiddelformulering og fremstilling B", "Cellulær og molekylær biologi", 0.081], ["Lægemiddelformulering og fremstilling A", "Samfundsfarmaci – metode og formidling", 0.0809], ["Farmaceutisk Mikrobiologi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0809], ["Farmaceutisk Biologi", "Farmaceutisk fysisk kemi II", 0.0808], ["Lægemiddelformulering og fremstilling B", "Farmaceutisk fysisk kemi II", 0.0807], ["Farmaceutisk fysisk kemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0807], ["Lægemiddelformulering og fremstilling D", "Farmaceutisk analytisk kemi", 0.0806], ["Toksikologi", "Kemiske principper", 0.0805], ["Lægemiddelformulering og fremstilling D", "Cellulær og molekylær biologi", 0.0805], ["Lægemiddelformulering og fremstilling D", "Farmaceutisk fysisk kemi II", 0.0805], ["Toksikologi", "Farmakoterapi", 0.0802], ["Lægemiddelformulering og fremstilling A", "Videnskabsteori og samfundsfarmaci", 0.0802], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Bachelorprojekt i farmaci", 0.0801], ["Lægemiddelformulering og fremstilling C", "Samfundsfarmaci – metode og formidling", 0.0799], ["Farmaceutisk fysisk kemi", "Lægemidler fra naturen", 0.0799], ["Samfundsfarmaci", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0798], ["Grundlæggende biokemi", "Bachelorprojekt i farmaci", 0.0797], ["Lægemiddelformulering og fremstilling D", "Lægemiddeludvikling fra molekyle til menneske", 0.0793], ["Organisk Kemi", "Farmaceutisk fysisk kemi II", 0.0792], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Samfundsfarmaci – metode og formidling", 0.0786], ["Lægemiddelformulering og fremstilling B", "Samfundsfarmaci – metode og formidling", 0.0783], ["Grundlæggende biokemi", "Basal farmakologi", 0.0782], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Organisk kemi I", 0.078], ["Farmaci grundkursus", "Lægemiddeludvikling fra molekyle til menneske", 0.0778], ["Naturstofkemi og farmakognosi", "Basal farmakologi", 0.0777], ["Medicinalkemi A", "Cellulær og molekylær biologi", 0.0776], ["Toksikologi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0775], ["Samfundsfarmaci", "Organisk kemi II – syntese af lægemiddelstoffer", 0.0773], ["Grundlæggende biokemi", "Systemfarmakologi - signalvejenes farmakologi", 0.0773], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Lægemidler fra naturen", 0.0768], ["Indledende organisk kemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0766], ["Samfundsfarmaci", "Farmaceutisk fysisk kemi I", 0.0764], ["Grundlæggende biokemi", "Farmaceutisk fysisk kemi II", 0.0763], ["Grundlæggende biokemi", "Organisk kemi I", 0.0758], ["Grundstoffernes Kemi", "Farmaceutisk fysisk kemi II", 0.0757], ["Lægemiddelformulering og fremstilling D", "Organisk kemi I", 0.0754], ["Farmaceutisk Biologi", "Farmaci II – faste lægemiddelformer", 0.0746], ["Grundstoffernes Kemi", "Farmakoterapi", 0.0744], ["Farmaci grundkursus", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0744], ["Lægemiddelformulering og fremstilling D", "Kemiske principper", 0.0744], ["Farmaceutisk fysisk kemi", "Samfundsfarmaci – metode og formidling", 0.0737], ["Almen kemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0735], ["Medicinalkemi A", "Basal farmakologi", 0.0734], ["Toksikologi", "Farmaceutisk fysisk kemi I", 0.0731], ["Grundlæggende biokemi", "Lægemidler fra naturen", 0.073], ["Lægemiddelformulering og fremstilling D", "Basal farmakologi", 0.0725], ["Farmaceutisk fysisk kemi", "Farmakoterapi", 0.0724], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Organisk kemi I", 0.0723], ["Organisk Kemi", "Kemiske principper", 0.0719], ["Farmaci grundkursus", "Farmaceutisk fysisk kemi II", 0.0715], ["Lægemiddelformulering og fremstilling A", "Systemfarmakologi - signalvejenes farmakologi", 0.071], ["Samfundsfarmaci", "Kemiske principper", 0.071], ["Grundlæggende biokemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0707], ["Fysik for Biologi og Farmaci", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0703], ["Fysik for Biologi og Farmaci", "Organisk kemi II – syntese af lægemiddelstoffer", 0.0703], ["Matematik og statistik for farmaci", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0703], ["Grundlæggende biokemi", "Farmakoterapi", 0.0703], ["Instrumentel farmaceutisk analyse", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0695], ["Farmaceutisk Biologi", "Farmakoterapi", 0.0694], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaci II – faste lægemiddelformer", 0.0683], ["Toksikologi", "Organisk kemi I", 0.0679], ["Naturstofkemi og farmakognosi", "Farmaceutisk analytisk kemi", 0.0678], ["Medicinalkemi A", "Farmaceutisk fysisk kemi I", 0.0676], ["Almen kemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0674], ["Medicinalkemi A", "Systemfarmakologi - signalvejenes farmakologi", 0.0663], ["Fysik for Biologi og Farmaci", "Biopharmaceuticals – bioorganisk kemi", 0.066], ["Medicinalkemi A", "Videnskabsteori og samfundsfarmaci", 0.0659], ["Instrumentel farmaceutisk analyse", "Farmaceutisk fysisk kemi II", 0.0659], ["Grundstoffernes Kemi", "Organfarmakologi", 0.0657], ["Toksikologi", "Farmaci II – faste lægemiddelformer", 0.0653], ["Grundstoffernes Kemi", "Samfundsfarmaci – metode og formidling", 0.0652], ["Fundamental Molekylær Biologi", "Organisk kemi II – syntese af lægemiddelstoffer", 0.0649], ["Farmaceutisk fysisk kemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0647], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Lægemidler fra naturen", 0.0643], ["Naturstofkemi og farmakognosi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0637], ["Grundstoffernes Kemi", "Basal farmakologi", 0.0634], ["Farmaceutisk Biologi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0632], ["Indledende organisk kemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0631], ["Fysik for Biologi og Farmaci", "Kemiske principper", 0.0631], ["Medicinalkemi A", "Kemiske principper", 0.063], ["Farmaceutisk Mikrobiologi", "Farmaceutisk fysisk kemi II", 0.0629], ["Fysik for Biologi og Farmaci", "Farmaceutisk analytisk kemi", 0.0627], ["Naturstofkemi og farmakognosi", "Farmakoterapi", 0.0624], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaci II – faste lægemiddelformer", 0.0623], ["Grundstoffernes Kemi", "Systemfarmakologi - signalvejenes farmakologi", 0.0623], ["Grundlæggende biokemi", "Farmaci II – faste lægemiddelformer", 0.0616], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0612], ["Fundamental Molekylær Biologi", "Organfarmakologi", 0.0611], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaceutisk fysisk kemi II", 0.0611], ["Naturstofkemi og farmakognosi", "Farmaceutisk fysisk kemi II", 0.0605], ["Fysik for Biologi og Farmaci", "Farmaceutisk fysisk kemi II", 0.0603], ["Lægemiddelformulering og fremstilling B", "Basal farmakologi", 0.0602], ["Farmaceutisk Mikrobiologi", "Basal farmakologi", 0.0598], ["Organisk Kemi", "Lægemidler fra naturen", 0.0597], ["Farmaceutisk Mikrobiologi", "Lægemiddeludvikling fra molekyle til menneske", 0.0595], ["Grundlæggende biokemi", "Samfundsfarmaci – metode og formidling", 0.0591], ["Grundstoffernes Kemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0589], ["Fysik for Biologi og Farmaci", "Videnskabsteori og samfundsfarmaci", 0.0587], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Samfundsfarmaci – metode og formidling", 0.0586], ["Naturstofkemi og farmakognosi", "Lægemiddeludvikling fra molekyle til menneske", 0.0585], ["Farmaceutisk Mikrobiologi", "Samfundsfarmaci – metode og formidling", 0.0582], ["Fundamental Molekylær Biologi", "Systemfarmakologi - signalvejenes farmakologi", 0.0582], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Organisk kemi I", 0.058], ["Farmaceutisk Mikrobiologi", "Farmakoterapi", 0.0578], ["Farmaceutisk Mikrobiologi", "Organisk kemi I", 0.0578], ["Fysik for Biologi og Farmaci", "Organisk kemi I", 0.0576], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0575], ["Naturstofkemi og farmakognosi", "Bachelorprojekt i farmaci", 0.0569], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaceutisk fysisk kemi I", 0.0568], ["Fysik for Biologi og Farmaci", "Bachelorprojekt i farmaci", 0.0559], ["Medicinalkemi A", "Bachelorprojekt i farmaci", 0.0557], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Samfundsfarmaci – metode og formidling", 0.0557], ["Medicinalkemi A", "Lægemidler fra naturen", 0.0557], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaceutisk analytisk kemi", 0.0557], ["Samfundsfarmaci", "Farmaceutisk fysisk kemi II", 0.0556], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaceutisk fysisk kemi II", 0.0537], ["Fundamental Molekylær Biologi", "Kemiske principper", 0.053], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaceutisk fysisk kemi I", 0.0529], ["Medicinalkemi A", "Farmaceutisk fysisk kemi II", 0.0524], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Organisk kemi I", 0.0521], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaceutisk analytisk kemi", 0.0516], ["Fysik for Biologi og Farmaci", "Organfarmakologi", 0.0513], ["Naturstofkemi og farmakognosi", "Samfundsfarmaci – metode og formidling", 0.0512], ["Toksikologi", "Lægemiddeludvikling fra molekyle til menneske", 0.051], ["Samfundsfarmaci", "Organisk kemi I", 0.051], ["Organisk Kemi", "Farmaceutisk biologi", 0.05], ["Matematik og statistik for farmaci", "Lægemiddeludvikling fra molekyle til menneske", 0.0496], ["Fysik for Biologi og Farmaci", "Samfundsfarmaci – metode og formidling", 0.0494], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0492], ["Instrumentel farmaceutisk analyse", "Lægemiddeludvikling fra molekyle til menneske", 0.0492], ["Grundlæggende biokemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0491], ["Samfundsfarmaci", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0489], ["Fysik for Biologi og Farmaci", "Systemfarmakologi - signalvejenes farmakologi", 0.0485], ["Organisk Kemi", "Videnskabsteori og samfundsfarmaci", 0.0477], ["Fysik for Biologi og Farmaci", "Basal farmakologi", 0.0465], ["Fysiologi og farmakologi for farmaceuter - Modul 4: Hormoner, kirtler, knogler og nervesystem", "Lægemiddeludvikling fra molekyle til menneske", 0.0463], ["Grundstoffernes Kemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0462], ["Toksikologi", "Farmaceutisk fysisk kemi II", 0.0458], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Lægemiddeludvikling fra molekyle til menneske", 0.0456], ["Medicinalkemi A", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0456], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaci II – faste lægemiddelformer", 0.0455], ["Medicinalkemi A", "Samfundsfarmaci – metode og formidling", 0.0451], ["Medicinalkemi A", "Farmaceutisk analytisk kemi", 0.045], ["Fundamental Molekylær Biologi", "Farmakoterapi", 0.0443], ["Fysik for Biologi og Farmaci", "Farmaci II – faste lægemiddelformer", 0.0442], ["Organisk Kemi", "Cellulær og molekylær biologi", 0.0438], ["Fundamental Molekylær Biologi", "Organisk kemi I", 0.0433], ["Fundamental Molekylær Biologi", "Farmaceutisk fysisk kemi I", 0.0433], ["Medicinalkemi A", "Farmakoterapi", 0.0429], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaci II – faste lægemiddelformer", 0.0425], ["Medicinalkemi A", "Farmaci II – faste lægemiddelformer", 0.0415], ["Fysik for Biologi og Farmaci", "Lægemidler fra naturen", 0.0409], ["Grundlæggende biokemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0408], ["Fundamental Molekylær Biologi", "Videnskabsteori og samfundsfarmaci", 0.0406], ["Fysiologi og farmakologi for farmaceuter - Modul 1: molekyler og celler", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0402], ["Fundamental Molekylær Biologi", "Farmaceutisk analytisk kemi", 0.0402], ["Naturstofkemi og farmakognosi", "Farmaci II – faste lægemiddelformer", 0.04], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaceutisk fysisk kemi II", 0.04], ["Fundamental Molekylær Biologi", "Farmaci II – faste lægemiddelformer", 0.0396], ["Organisk Kemi", "Bachelorprojekt i farmaci", 0.0389], ["Organisk Kemi", "Organfarmakologi", 0.0387], ["Fundamental Molekylær Biologi", "Lægemidler fra naturen", 0.0378], ["Fundamental Molekylær Biologi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.0377], ["Organisk Kemi", "Systemfarmakologi - signalvejenes farmakologi", 0.0372], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Lægemiddeludvikling fra molekyle til menneske", 0.0368], ["Toksikologi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0367], ["Organisk Kemi", "Farmaceutisk analytisk kemi", 0.0356], ["Fysik for Biologi og Farmaci", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0355], ["Fysik for Biologi og Farmaci", "Farmakoterapi", 0.034], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaceutisk fysisk kemi II", 0.0331], ["Fundamental Molekylær Biologi", "Farmaceutisk fysisk kemi II", 0.0328], ["Fundamental Molekylær Biologi", "Basal farmakologi", 0.0326], ["Organisk Kemi", "Kvalitetsvurdering af farmaceutiske råvarer", 0.032], ["Fundamental Molekylær Biologi", "Lægemiddeludvikling fra molekyle til menneske", 0.032], ["Fundamental Molekylær Biologi", "Bachelorprojekt i farmaci", 0.0319], ["Medicinalkemi A", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0299], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Lægemiddeludvikling fra molekyle til menneske", 0.0286], ["Organisk Kemi", "Samfundsfarmaci – metode og formidling", 0.028], ["Naturstofkemi og farmakognosi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0267], ["Fundamental Molekylær Biologi", "Samfundsfarmaci – metode og formidling", 0.0262], ["Fysiologi og farmakologi for farmaceuter - Modul 2: hjerte, kar og nyrer", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.026], ["Organisk Kemi", "Farmaci II – faste lægemiddelformer", 0.0259], ["Medicinalkemi A", "Lægemiddeludvikling fra molekyle til menneske", 0.0254], ["Fundamental Molekylær Biologi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0253], ["Fysiologi og farmakologi for farmaceuter – modul 3: Respiration, mave-tarm-system og immunologi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0243], ["Organisk Kemi", "Lægemiddeludvikling fra molekyle til menneske", 0.0231], ["Organisk Kemi", "Basal farmakologi", 0.023], ["Fysik for Biologi og Farmaci", "Lægemiddeludvikling fra molekyle til menneske", 0.0224], ["Organisk Kemi", "Farmakoterapi", 0.0208], ["Organisk Kemi", "Farmaci I – flydende og halvfaste lægemiddelformer", 0.0161]];
+  const PAIRS = PAIRS_RAW.map(([sdu, ku, score]) => ({ sdu, ku, score }));
+  const GLOBAL_MAX = Math.max(...PAIRS.map(p => p.score));
+
+  const sduCourses = [...new Set(PAIRS.map(p => p.sdu))].sort((a, b) => a.localeCompare(b, "da"));
+  const kuCourses = [...new Set(PAIRS.map(p => p.ku))].sort((a, b) => a.localeCompare(b, "da"));
+
+  const allCourses = [
+    ...sduCourses.map(name => ({ name, uni: "SDU" })),
+    ...kuCourses.map(name => ({ name, uni: "KU" })),
+  ].sort((a, b) => a.name.localeCompare(b.name, "da"));
+
+  /* ---------------- tabs ---------------- */
+  const tabFind = document.getElementById("tab-find");
+  const tabTable = document.getElementById("tab-table");
+  const panelFind = document.getElementById("panel-find");
+  const panelTable = document.getElementById("panel-table");
+
+  function selectTab(which) {
+    const findActive = which === "find";
+    tabFind.setAttribute("aria-selected", String(findActive));
+    tabTable.setAttribute("aria-selected", String(!findActive));
+    panelFind.classList.toggle("active", findActive);
+    panelTable.classList.toggle("active", !findActive);
+  }
+  tabFind.addEventListener("click", () => selectTab("find"));
+  tabTable.addEventListener("click", () => selectTab("table"));
+
+  /* ---------------- find panel ---------------- */
+  const input = document.getElementById("course-input");
+  const combo = document.getElementById("combo");
+  const clearBtn = document.getElementById("clear-btn");
+  const suggestionsBox = document.getElementById("suggestions");
+  const selectedChip = document.getElementById("selected-chip");
+  const chipName = document.getElementById("chip-name");
+  const chipPill = document.getElementById("chip-pill");
+  const resultsBody = document.getElementById("results-body");
+  const countOptions = document.getElementById("count-options");
+
+  let selectedCourse = null; // { name, uni }
+  let activeCount = 5;
+  let activeSuggestionIndex = -1;
+  let currentSuggestions = [];
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+
+  function highlightMatch(name, query) {
+    if (!query) return escapeHtml(name);
+    const idx = name.toLowerCase().indexOf(query.toLowerCase());
+    if (idx === -1) return escapeHtml(name);
+    return (
+      escapeHtml(name.slice(0, idx)) +
+      "<mark>" + escapeHtml(name.slice(idx, idx + query.length)) + "</mark>" +
+      escapeHtml(name.slice(idx + query.length))
+    );
+  }
+
+  function renderSuggestions(query) {
+    const q = query.trim().toLowerCase();
+    currentSuggestions = q
+      ? allCourses.filter(c => c.name.toLowerCase().includes(q)).slice(0, 40)
+      : [];
+    activeSuggestionIndex = -1;
+
+    if (!q) {
+      suggestionsBox.classList.remove("open");
+      suggestionsBox.innerHTML = "";
+      input.setAttribute("aria-expanded", "false");
+      return;
+    }
+
+    if (currentSuggestions.length === 0) {
+      suggestionsBox.innerHTML = `<div class="suggestions-empty">No course matches “${escapeHtml(query)}”.</div>`;
+    } else {
+      suggestionsBox.innerHTML = currentSuggestions.map((c, i) => `
+        <div class="suggestion" data-index="${i}" role="option">
+          <span class="name">${highlightMatch(c.name, query)}</span>
+          <span class="pill pill-${c.uni.toLowerCase()}">${c.uni}</span>
+        </div>
+      `).join("");
+    }
+    suggestionsBox.classList.add("open");
+    input.setAttribute("aria-expanded", "true");
+  }
+
+  function pickCourse(course) {
+    selectedCourse = course;
+    input.value = course.name;
+    combo.classList.add("has-value");
+    suggestionsBox.classList.remove("open");
+    suggestionsBox.innerHTML = "";
+    chipName.textContent = course.name;
+    chipPill.textContent = course.uni;
+    chipPill.className = "pill pill-" + course.uni.toLowerCase();
+    selectedChip.classList.add("show");
+    renderResults();
+  }
+
+  function clearSelection() {
+    selectedCourse = null;
+    input.value = "";
+    combo.classList.remove("has-value");
+    selectedChip.classList.remove("show");
+    suggestionsBox.classList.remove("open");
+    resultsBody.innerHTML = `
+      <div class="empty-state">
+        <div class="glyph">☍</div>
+        <p>Pick a course above to see its best matches from the other university.</p>
+      </div>`;
+    input.focus();
+  }
+
+  input.addEventListener("input", () => {
+    if (selectedCourse && input.value !== selectedCourse.name) {
+      selectedCourse = null;
+      combo.classList.remove("has-value");
+      selectedChip.classList.remove("show");
+    }
+    renderSuggestions(input.value);
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (!suggestionsBox.classList.contains("open") || currentSuggestions.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeSuggestionIndex = Math.min(activeSuggestionIndex + 1, currentSuggestions.length - 1);
+      updateActiveSuggestion();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeSuggestionIndex = Math.max(activeSuggestionIndex - 1, 0);
+      updateActiveSuggestion();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const idx = activeSuggestionIndex >= 0 ? activeSuggestionIndex : 0;
+      if (currentSuggestions[idx]) pickCourse(currentSuggestions[idx]);
+    } else if (e.key === "Escape") {
+      suggestionsBox.classList.remove("open");
+    }
+  });
+
+  function updateActiveSuggestion() {
+    [...suggestionsBox.querySelectorAll(".suggestion")].forEach((el, i) => {
+      el.classList.toggle("active", i === activeSuggestionIndex);
+    });
+  }
+
+  suggestionsBox.addEventListener("click", (e) => {
+    const row = e.target.closest(".suggestion");
+    if (!row) return;
+    const idx = Number(row.dataset.index);
+    pickCourse(currentSuggestions[idx]);
+  });
+
+  clearBtn.addEventListener("click", clearSelection);
+
+  document.addEventListener("click", (e) => {
+    if (!combo.contains(e.target)) suggestionsBox.classList.remove("open");
+  });
+
+  countOptions.addEventListener("click", (e) => {
+    const btn = e.target.closest(".count-btn");
+    if (!btn) return;
+    activeCount = btn.dataset.n === "all" ? Infinity : Number(btn.dataset.n);
+    [...countOptions.children].forEach(b => b.classList.toggle("active", b === btn));
+    renderResults();
+  });
+  countOptions.children[0].classList.add("active");
+
+  function renderResults() {
+    if (!selectedCourse) return;
+    const isSdu = selectedCourse.uni === "SDU";
+    const key = isSdu ? "sdu" : "ku";
+    const otherKey = isSdu ? "ku" : "sdu";
+    const otherUni = isSdu ? "KU" : "SDU";
+
+    const matches = PAIRS
+      .filter(p => p[key] === selectedCourse.name)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, activeCount === Infinity ? undefined : activeCount);
+
+    if (matches.length === 0) {
+      resultsBody.innerHTML = `<div class="empty-state"><p>No matches found.</p></div>`;
+      return;
+    }
+
+    resultsBody.innerHTML = matches.map((m, i) => {
+      const pct = Math.min(100, (m.score / GLOBAL_MAX) * 100);
+      return `
+        <div class="result-row">
+          <div class="result-rank">${i + 1}</div>
+          <div class="result-main">
+            <div class="result-name">${escapeHtml(m[otherKey])}</div>
+            <div class="result-bar-track"><div class="result-bar-fill" style="width:${pct.toFixed(1)}%"></div></div>
+          </div>
+          <div class="result-score">${m.score.toFixed(4)}</div>
+        </div>`;
+    }).join("");
+  }
+
+  /* ---------------- table panel ---------------- */
+  const tableFilter = document.getElementById("table-filter");
+  const tableCountOptions = document.getElementById("table-count-options");
+  const tableBody = document.getElementById("table-body");
+  const tableFooter = document.getElementById("table-footer");
+  const headerCells = document.querySelectorAll("table.match-table thead th");
+
+  let tableTopN = 20;
+  let sortKey = "score";
+  let sortDir = "desc";
+
+  tableCountOptions.addEventListener("click", (e) => {
+    const btn = e.target.closest(".count-btn");
+    if (!btn) return;
+    tableTopN = btn.dataset.n === "all" ? Infinity : Number(btn.dataset.n);
+    [...tableCountOptions.children].forEach(b => b.classList.toggle("active", b === btn));
+    renderTable();
+  });
+  tableCountOptions.children[0].classList.add("active");
+
+  headerCells.forEach(th => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.key;
+      if (sortKey === key) {
+        sortDir = sortDir === "desc" ? "asc" : "desc";
+      } else {
+        sortKey = key;
+        sortDir = key === "score" ? "desc" : "asc";
+      }
+      headerCells.forEach(h => {
+        h.classList.toggle("sorted", h === th);
+        h.querySelector(".arrow").textContent = h === th ? (sortDir === "desc" ? "▾" : "▴") : "▾";
+      });
+      renderTable();
+    });
+  });
+
+  tableFilter.addEventListener("input", renderTable);
+
+  function renderTable() {
+    const q = tableFilter.value.trim().toLowerCase();
+    let rows = q
+      ? PAIRS.filter(p => p.sdu.toLowerCase().includes(q) || p.ku.toLowerCase().includes(q))
+      : PAIRS.slice();
+
+    rows.sort((a, b) => {
+      let av = a[sortKey], bv = b[sortKey];
+      if (sortKey !== "score") {
+        av = av.toLowerCase(); bv = bv.toLowerCase();
+        return sortDir === "asc" ? av.localeCompare(bv, "da") : bv.localeCompare(av, "da");
+      }
+      return sortDir === "asc" ? av - bv : bv - av;
+    });
+
+    const total = rows.length;
+    const shown = rows.slice(0, tableTopN === Infinity ? undefined : tableTopN);
+
+    tableBody.innerHTML = shown.map(p => {
+      const pct = Math.min(100, (p.score / GLOBAL_MAX) * 100);
+      return `
+        <tr>
+          <td>${escapeHtml(p.sdu)}</td>
+          <td>${escapeHtml(p.ku)}</td>
+          <td class="score-col"><span class="mini-bar"><span style="width:${pct.toFixed(1)}%"></span></span>${p.score.toFixed(4)}</td>
+        </tr>`;
+    }).join("");
+
+    tableFooter.textContent = `Showing ${shown.length} of ${total} pair${total === 1 ? "" : "s"}${q ? ` (filtered from 525)` : ""}`;
+  }
+
+  renderTable();
+</script>
