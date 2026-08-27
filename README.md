@@ -32,7 +32,7 @@ uv lock
 | `data/course_similarity_long.csv` | **Output.** 525 cross-university course pairs: `course_KU`, `course_SDU`, `Semester`, `similarity` |
 | `data/course_similarity_matrix.csv` | **Output.** 46×46 symmetric similarity matrix indexed by course title |
 
-## Pipeline (`embeddings assesment.py`)
+## Pipeline (`01. embeddings assesment.py`)
 
 1. **Encode** — each course `Description` is embedded with
    `paraphrase-multilingual-MiniLM-L12-v2` (384-d).
@@ -51,7 +51,7 @@ uv lock
 Run it with:
 
 ```bash
-uv run "embeddings assesment.py"
+uv run "01. embeddings assesment.py"
 ```
 
 ## Updating the HTML visualization
@@ -62,10 +62,10 @@ the page:
 
 ```bash
 # 1. regenerate the long-format similarity data
-uv run "embeddings assesment.py"
+uv run "01. embeddings assesment.py"
 
 # 2. write the latest data into the HTML
-uv run python update_crosswalk_html.py
+uv run python "02. update_crosswalk_html.py"
 ```
 
 The helper reads `data/course_similarity_long.csv`, maps each pair onto the course

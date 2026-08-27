@@ -3,7 +3,7 @@
 
 Usage (run from the repo root, after regenerating the data file):
 
-    uv run python update_crosswalk_html.py
+    uv run python "02. update_crosswalk_html.py"
 
 This reads ONLY data/course_similarity_long.csv and rebuilds both the course
 node lists and the links inside the HTML:
