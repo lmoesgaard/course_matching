@@ -54,6 +54,29 @@ Run it with:
 uv run "embeddings assesment.py"
 ```
 
+## Updating the HTML visualization
+
+`interfaces/farmaci_crosswalk.html` embeds the similarity data as JSON, so after you
+change the embeddings and regenerate the similarity file, re-embed the new data into
+the page:
+
+```bash
+# 1. regenerate the long-format similarity data
+uv run "embeddings assesment.py"
+
+# 2. write the latest data into the HTML
+uv run python update_crosswalk_html.py
+```
+
+The helper reads `data/course_similarity_long.csv`, maps each pair onto the course
+nodes already present in the page (preserving ids, names, and semesters), and rewrites
+the embedded `links`/`max`/`min` JSON. After running, check the diff to confirm only the
+link data changed:
+
+```bash
+git diff interfaces/farmaci_crosswalk.html
+```
+
 ## Interfaces
 
 - `interfaces/course_match.py` — command-line tool to explore SDU↔KU matches. !!! NOT UP TO DATE !!!
