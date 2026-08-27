@@ -33,7 +33,7 @@ def normalize(embeddings, whiten=False, top_k=None):
         proj = centered @ Vt[:k].T
         whitened = proj / proj.std(axis=0, keepdims=True)  # unit variance per component
 
-        # detect degenerate collapse: when k = n-1 the whitened points form a
+        # detect degenerate collapse: when k >= n-1 the whitened points form a
         # regular simplex, so every pairwise similarity becomes identical (~0)
         W = whitened / np.linalg.norm(whitened, axis=1, keepdims=True)
         M = W @ W.T
