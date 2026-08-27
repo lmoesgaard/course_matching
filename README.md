@@ -24,9 +24,6 @@ uv sync
 uv lock
 ```
 
-> Note: a pre-existing virtual environment may be present at `.env/`; it is
-> git-ignored. Running `uv sync` creates its own `.venv`.
-
 ## Data
 
 | File | Description |
@@ -59,16 +56,15 @@ uv run "embeddings assesment.py"
 
 ## Interfaces
 
-- `interfaces/course_match.py` — command-line tool to explore SDU↔KU matches.
-- `interfaces/course_match.html` — interactive HTML explorer.
+- `interfaces/course_match.py` — command-line tool to explore SDU↔KU matches. !!! NOT UP TO DATE !!!
+- `interfaces/course_match.html` — interactive HTML explorer. !!! NOT UP TO DATE !!!
 - `interfaces/farmaci_crosswalk.html` — interactive bipartite "crosswalk" view:
   SDU courses on top, KU courses below, links weighted by description similarity,
   with filtering and per-course isolation.
 
 ## Notes
 
-- Scores reflect how closely two course *descriptions* overlap; they are a prompt
-  for further reading, not a definitive equivalence.
+- Scores reflect how closely two course *descriptions* overlap; they are a prompt for further reading, not a definitive equivalence.
 - Danish and English descriptions are embedded by a multilingual model.
 
 ## License
