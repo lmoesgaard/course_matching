@@ -130,10 +130,11 @@ pairs_df["sem_b"] = pairs_df["course_b"].map(sem)
 is_ku_a = pairs_df["uni_a"] == "KU"
 pairs_df["course_KU"]  = np.where(is_ku_a, pairs_df["course_a"],  pairs_df["course_b"])
 pairs_df["course_SDU"] = np.where(is_ku_a, pairs_df["course_b"], pairs_df["course_a"])
-pairs_df["Semester"]   = np.where(is_ku_a, pairs_df["sem_a"],    pairs_df["sem_b"])
+pairs_df["Semester_KU"]   = np.where(is_ku_a, pairs_df["sem_a"],    pairs_df["sem_b"])
+pairs_df["Semester_SDU"]   = np.where(is_ku_a, pairs_df["sem_b"],    pairs_df["sem_a"])
 
-pairs_df = pairs_df[["course_KU", "course_SDU", "Semester", "similarity"]].copy()
-pairs_df = pairs_df.sort_values(["Semester", "course_KU", "similarity"],
+pairs_df = pairs_df[["course_KU", "course_SDU", "Semester_KU", "Semester_SDU", "similarity"]].copy()
+pairs_df = pairs_df.sort_values(["Semester_KU", "course_KU", "similarity"],
                                 ascending=[True, True, False]).reset_index(drop=True)
 # save pairs_df to csv
 pairs_df.to_csv("data/course_similarity_long.csv", index=False)
