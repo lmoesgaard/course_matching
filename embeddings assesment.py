@@ -11,6 +11,10 @@ encoder = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")#("sentenc
 df = pd.read_excel("data/SDU_KU_Course_Matching.xlsx")
 list(df.columns)
 
+# First processing step: drop the bachelor’s-thesis
+df = df[~df["Course Title"].str.contains("Bachelor", case=False, na=False)].reset_index(drop=True)
+
+
 ################################# EMBED REASONING #####################################################
 
 # Normalization function: center (and optionally whiten) a list of embedding arrays
