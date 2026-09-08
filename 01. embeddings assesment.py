@@ -19,6 +19,7 @@ df = df[~df["Course Title"].str.contains("Bachelor", case=False, na=False)].rese
 
 # Normalization function: center (and optionally whiten) a list of embedding arrays
 def normalize(embeddings, whiten=False, top_k=None):
+    
     # stack into a 2D matrix (rows = courses, cols = embedding dims)
     E = np.stack(embeddings)
     # center: subtract the mean (centroid) vector of the set
